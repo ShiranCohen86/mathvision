@@ -81,6 +81,21 @@
   font-size: var(--fs-200);
 }
 
+.resultCard {
+  @include card;
+  padding: var(--space-5);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.resultAnswer {
+  font-size: var(--fs-500);
+  font-weight: 700;
+}
+
 /* ── Solution ─────────────────────────────────────────────── */
 
 .solution {

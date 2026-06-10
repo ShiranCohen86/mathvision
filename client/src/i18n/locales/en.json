@@ -58,7 +58,10 @@
     "next": "Next step",
     "prev": "Previous step",
     "restart": "Restart",
-    "step": "Step {{n}} / {{total}}"
+    "step": "Step {{n}} / {{total}}",
+    "board": "Solving board",
+    "close": "Close",
+    "watch": "Watch on the board"
   },
   "auth": {
     "google": "Sign in with Google",
