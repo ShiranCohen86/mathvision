@@ -1,0 +1,50 @@
+{
+  "app": {
+    "name": "MathVision",
+    "tagline": "Photograph any math problem — and watch the solution built, step by step."
+  },
+  "nav": {
+    "home": "Home",
+    "capture": "Solve",
+    "history": "History",
+    "learn": "Learn",
+    "profile": "Profile"
+  },
+  "common": {
+    "language": "Language",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "backendOk": "Server connected",
+    "backendDown": "No server connection",
+    "checking": "Checking connection…"
+  },
+  "home": {
+    "title": "Hi there 👋",
+    "subtitle": "Ready to solve something?",
+    "cta": "Snap a problem",
+    "recent": "Recent",
+    "empty": "No solutions yet — let's start!"
+  },
+  "capture": {
+    "title": "Solve a problem",
+    "subtitle": "Take a photo, upload, or paste an image",
+    "soon": "The capture & recognition engine arrives in Phase 1"
+  },
+  "history": {
+    "title": "History",
+    "empty": "Your saved solutions will appear here"
+  },
+  "learn": {
+    "title": "Learn",
+    "soon": "Practice, an AI tutor, and progress — coming soon"
+  },
+  "profile": {
+    "title": "Profile",
+    "signin": "Sign in",
+    "soon": "Accounts & family circle — Phase 0"
+  },
+  "phase": {
+    "badge": "Coming in {{phase}}"
+  }
+}

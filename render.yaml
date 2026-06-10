@@ -1,0 +1,58 @@
+# Render Blueprint — infra as code for MathVision.
+# Two services: the Node web app (serves API + built client) and the private
+# Python/SymPy verifier. MongoDB Atlas and Cloudinary are external (free tiers);
+# set their secrets in the Render dashboard / an Environment Group.
+#
+# Region 'frankfurt' is the closest Render region to Israel.
+
+services:
+  # ── Web: Express serves the API and the built React client ──────────────
+  - type: web
+    name: mathvision-web
+    runtime: node
+    plan: starter
+    region: frankfurt
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CLIENT_URL
+        sync: false # public URL of this service once known
+      - key: MONGODB_URI
+        sync: false # MongoDB Atlas connection string
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: MATHPIX_APP_ID
+        sync: false
+      - key: MATHPIX_APP_KEY
+        sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: VERIFIER_SERVICE_KEY
+        sync: false # must match the verifier service's key below
+      - key: VERIFIER_URL
+        sync: false # internal URL of mathvision-verifier (from Render dashboard)
+
+  # ── Private: SymPy verifier, reachable only from the web service ─────────
+  - type: pserv
+    name: mathvision-verifier
+    runtime: docker
+    plan: starter
+    region: frankfurt
+    dockerfilePath: ./verifier/Dockerfile
+    dockerContext: ./verifier
+    autoDeploy: true
+    envVars:
+      - key: VERIFIER_SERVICE_KEY
+        sync: false # must match the web service value

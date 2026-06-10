@@ -1,0 +1,25 @@
+{
+  "name": "mathvision",
+  "private": true,
+  "version": "0.0.0",
+  "description": "MathVision — photograph any math problem and watch a verified, beautifully-animated, step-by-step solution. Bilingual (He/En) PWA.",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently -n server,client -c blue,magenta \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:client": "npm run dev -w client",
+    "dev:server": "npm run dev -w server",
+    "build": "npm run build -w client && npm run build -w server",
+    "start": "npm run start -w server",
+    "lint": "npm run lint -w client && npm run lint -w server",
+    "test": "npm run test -w client && npm run test -w server"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}

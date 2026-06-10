@@ -1,0 +1,51 @@
+@use '../styles/mixins' as *;
+
+.iconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  min-width: 2.5rem;
+  height: 2.5rem;
+  padding-inline: var(--space-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--text);
+  font-size: var(--fs-200);
+  font-weight: 600;
+  transition:
+    background var(--dur) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+  @include focus-ring;
+
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-200);
+  color: var(--text-muted);
+}
+
+.dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: var(--text-muted);
+  transition: background var(--dur) var(--ease-out);
+
+  &[data-state='ok'] {
+    background: var(--success);
+  }
+  &[data-state='down'] {
+    background: var(--error);
+  }
+  &[data-state='checking'] {
+    background: var(--warn);
+  }
+}
