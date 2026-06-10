@@ -10,7 +10,7 @@ services:
   - type: web
     name: mathvision-web
     runtime: node
-    plan: starter
+    plan: free
     region: frankfurt
     buildCommand: npm install && npm run build
     startCommand: npm start
@@ -43,15 +43,18 @@ services:
       - key: VERIFIER_URL
         sync: false # internal URL of mathvision-verifier (from Render dashboard)
 
-  # ── Private: SymPy verifier, reachable only from the web service ─────────
-  - type: pserv
-    name: mathvision-verifier
-    runtime: docker
-    plan: starter
-    region: frankfurt
-    dockerfilePath: ./verifier/Dockerfile
-    dockerContext: ./verifier
-    autoDeploy: true
-    envVars:
-      - key: VERIFIER_SERVICE_KEY
-        sync: false # must match the web service value
+  # ── Private: SymPy verifier (Layer-2) — enabled in Phase 1 ───────────────
+  # Not used until the solve pipeline ships, and Render private services
+  # aren't free. Re-enable this block (and pick a paid plan) when needed:
+  #
+  #   - type: pserv
+  #     name: mathvision-verifier
+  #     runtime: docker
+  #     plan: starter
+  #     region: frankfurt
+  #     dockerfilePath: ./verifier/Dockerfile
+  #     dockerContext: ./verifier
+  #     autoDeploy: true
+  #     envVars:
+  #       - key: VERIFIER_SERVICE_KEY
+  #         sync: false
