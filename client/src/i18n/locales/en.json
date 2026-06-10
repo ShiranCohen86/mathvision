@@ -44,6 +44,21 @@
     "signin": "Sign in",
     "soon": "Accounts & family circle — Phase 0"
   },
+  "solve": {
+    "prompt": "Type an equation to solve — or tap an example",
+    "action": "Solve",
+    "solving": "Solving…",
+    "examples": "Try:",
+    "hint": "Linear & quadratic equations are solved and verified right here — no keys needed. Photo capture and AI solving for any problem arrive when API keys are added.",
+    "answer": "Answer",
+    "verified": "Verified",
+    "play": "Play",
+    "pause": "Pause",
+    "next": "Next step",
+    "prev": "Previous step",
+    "restart": "Restart",
+    "step": "Step {{n}} / {{total}}"
+  },
   "phase": {
     "badge": "Coming in {{phase}}"
   }

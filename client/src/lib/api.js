@@ -14,10 +14,16 @@ export async function apiFetch(path, init) {
     headers: { 'Content-Type': 'application/json', ...init?.headers },
     ...init,
   });
+  const isJson = res.headers.get('content-type')?.includes('application/json');
+  const body = isJson ? await res.json().catch(() => null) : null;
   if (!res.ok) {
-    throw new ApiError(res.status, `Request failed: ${res.status} ${res.statusText}`);
+    const message = body?.message || body?.error || `Request failed: ${res.status}`;
+    throw new ApiError(res.status, message);
   }
-  return res.json();
+  return body;
 }
 
 export const getHealth = () => apiFetch('/health');
+
+export const solveProblem = (problem) =>
+  apiFetch('/solve', { method: 'POST', body: JSON.stringify({ problem }) });

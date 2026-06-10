@@ -70,3 +70,41 @@ export const GlobeIcon = ({ size }) => (
     <path d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18" />
   </Svg>
 );
+
+export const PlayIcon = ({ size }) => (
+  <Svg size={size}>
+    <path d="M7 5v14l11-7z" />
+  </Svg>
+);
+
+export const PauseIcon = ({ size }) => (
+  <Svg size={size}>
+    <path d="M9 5v14M15 5v14" />
+  </Svg>
+);
+
+export const PrevIcon = ({ size }) => (
+  <Svg size={size}>
+    <path d="M15 6l-6 6 6 6" />
+  </Svg>
+);
+
+export const NextIcon = ({ size }) => (
+  <Svg size={size}>
+    <path d="M9 6l6 6-6 6" />
+  </Svg>
+);
+
+export const RestartIcon = ({ size }) => (
+  <Svg size={size}>
+    <path d="M4 4v6h6" />
+    <path d="M20 12a8 8 0 1 0-2.3 5.7" />
+  </Svg>
+);
+
+export const CheckIcon = ({ size }) => (
+  <Svg size={size}>
+    <path d="M4 12l5 5L20 6" />
+  </Svg>
+);
+
