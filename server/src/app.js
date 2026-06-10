@@ -9,6 +9,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import { env, isProd, isTest } from './config/env.js';
 import { apiRouter } from './routes/index.js';
+import { optionalAuth } from './auth/middleware.js';
 import { notFound, errorHandler } from './middleware/error.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -29,6 +30,9 @@ export function createApp() {
   app.use(cookieParser());
   app.use(cors({ origin: env.CLIENT_URL, credentials: true }));
   if (!isProd && !isTest) app.use(morgan('dev'));
+
+  // Attach req.user (if signed in) to every request.
+  app.use(optionalAuth);
 
   // API
   app.use('/api', apiRouter);

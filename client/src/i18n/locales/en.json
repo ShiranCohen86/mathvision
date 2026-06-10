@@ -33,7 +33,8 @@
   },
   "history": {
     "title": "History",
-    "empty": "Your saved solutions will appear here"
+    "empty": "Your saved solutions will appear here",
+    "signin": "Sign in to see your saved solutions."
   },
   "learn": {
     "title": "Learn",
@@ -58,6 +59,11 @@
     "prev": "Previous step",
     "restart": "Restart",
     "step": "Step {{n}} / {{total}}"
+  },
+  "auth": {
+    "google": "Sign in with Google",
+    "signout": "Sign out",
+    "signinPrompt": "Sign in to save your solutions and sync them across your devices."
   },
   "phase": {
     "badge": "Coming in {{phase}}"

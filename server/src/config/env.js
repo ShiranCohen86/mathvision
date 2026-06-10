@@ -28,6 +28,14 @@ const schema = z.object({
 
   VERIFIER_URL: z.string().default('http://127.0.0.1:8000'),
   VERIFIER_SERVICE_KEY: z.string().default('dev-only-change-me'),
+
+  CLOUDINARY_CLOUD_NAME: z.string().optional(),
+  CLOUDINARY_API_KEY: z.string().optional(),
+  CLOUDINARY_API_SECRET: z.string().optional(),
+
+  GOOGLE_CLIENT_ID: z.string().optional(),
+  GOOGLE_CLIENT_SECRET: z.string().optional(),
+  OAUTH_REDIRECT_BASE: z.string().default('http://localhost:5173'),
 });
 
 export const env = schema.parse(process.env);

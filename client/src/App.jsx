@@ -1,6 +1,7 @@
 import { RouterProvider } from 'react-router-dom';
 import { router } from './app/router';
 import { ThemeProvider } from './app/ThemeProvider';
+import { AuthProvider } from './app/AuthProvider';
 import { useDirection } from './hooks/useDirection';
 
 export function App() {
@@ -9,7 +10,9 @@ export function App() {
 
   return (
     <ThemeProvider>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </ThemeProvider>
   );
 }

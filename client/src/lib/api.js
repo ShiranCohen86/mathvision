@@ -27,3 +27,16 @@ export const getHealth = () => apiFetch('/health');
 
 export const solveProblem = (problem) =>
   apiFetch('/solve', { method: 'POST', body: JSON.stringify({ problem }) });
+
+export const getMe = async () => {
+  try {
+    return await apiFetch('/auth/me');
+  } catch (err) {
+    if (err instanceof ApiError && err.status === 401) return null;
+    throw err;
+  }
+};
+
+export const logout = () => apiFetch('/auth/logout', { method: 'POST' });
+
+export const getHistory = () => apiFetch('/history');

@@ -53,6 +53,23 @@ pip install -r requirements.txt
 uvicorn app:app --reload --port 8000
 ```
 
+## Enabling cloud features
+
+The app runs and solves linear/quadratic equations with **no keys**. To unlock the
+rest, set these (in `.env` for local dev, and in Render's Environment for prod):
+
+- **AI solving (any problem):** `OPENAI_API_KEY` — the key's OpenAI account needs **billing/credits**.
+- **Sign in with Google:** `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET`, and register the redirect URI `${OAUTH_REDIRECT_BASE}/api/auth/google/callback` in Google Cloud Console (e.g. `http://localhost:5173/...` for dev, your Render URL for prod).
+- **Saved history:** `MONGODB_URI` (MongoDB Atlas).
+- **Image storage:** `CLOUDINARY_CLOUD_NAME` / `API_KEY` / `API_SECRET` — the **Cloud name** must match the key/secret pair.
+- **Photo OCR:** `MATHPIX_APP_ID` / `MATHPIX_APP_KEY` (not yet wired into the UI).
+
+Verify connections any time (prints status only, never secrets):
+
+```bash
+npm run check -w server
+```
+
 ## Scripts (root)
 
 | Command | Does |
@@ -65,4 +82,5 @@ uvicorn app:app --reload --port 8000
 
 ## Status
 
-Phase 0 — Foundations (in progress). See the full spec in `~/.claude/plans/` or `docs/SPEC.md`.
+Phase 1 in progress — verified solving (linear/quadratic with no keys, plus AI for any
+problem), Google sign-in, and saved history are wired. See `docs/SPEC.md`.

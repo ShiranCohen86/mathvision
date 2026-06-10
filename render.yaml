@@ -24,6 +24,12 @@ services:
         generateValue: true
       - key: CLIENT_URL
         sync: false # public URL of this service once known
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: OAUTH_REDIRECT_BASE
+        sync: false # your Render URL, e.g. https://mathvision-web.onrender.com
       - key: MONGODB_URI
         sync: false # MongoDB Atlas connection string
       - key: OPENAI_API_KEY
