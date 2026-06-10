@@ -6,7 +6,7 @@
   "main": "src/index.js",
   "scripts": {
     "dev": "node --watch src/index.js",
-    "build": "echo server: no build step (plain JS)",
+    "build": "echo no build step for the server",
     "start": "node src/index.js",
     "check": "node src/scripts/checkConnections.js",
     "lint": "eslint .",
