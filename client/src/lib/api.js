@@ -40,3 +40,7 @@ export const getMe = async () => {
 export const logout = () => apiFetch('/auth/logout', { method: 'POST' });
 
 export const getHistory = () => apiFetch('/history');
+
+export const getProgress = () => apiFetch('/progress');
+
+export const getLeaderboard = () => apiFetch('/progress/leaderboard');

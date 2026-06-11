@@ -7,7 +7,7 @@
     "home": "Home",
     "capture": "Solve",
     "history": "History",
-    "learn": "Learn",
+    "learn": "Progress",
     "profile": "Profile"
   },
   "common": {
@@ -67,6 +67,28 @@
     "google": "Sign in with Google",
     "signout": "Sign out",
     "signinPrompt": "Sign in to save your solutions and sync them across your devices."
+  },
+  "game": {
+    "level": "Level",
+    "lvl": "Lv",
+    "toNext": "XP to next level",
+    "streak": "Day streak",
+    "solved": "Solved",
+    "verified": "Verified",
+    "achievements": "Achievements",
+    "leaderboard": "Family leaderboard",
+    "noBoard": "Solve problems to climb the board!",
+    "signin": "Sign in to track XP, streaks, and achievements.",
+    "levelUp": "Level up!",
+    "ach": {
+      "first-solve": "First solve",
+      "ten-solves": "10 solved",
+      "fifty-solves": "50 solved",
+      "streak-3": "3-day streak",
+      "streak-7": "7-day streak",
+      "level-5": "Reached level 5",
+      "verified-10": "10 verified"
+    }
   },
   "phase": {
     "badge": "Coming in {{phase}}"

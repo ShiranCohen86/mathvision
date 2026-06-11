@@ -13,6 +13,7 @@ export function CapturePage() {
   const [input, setInput] = useState('');
   const [status, setStatus] = useState('idle');
   const [solution, setSolution] = useState(null);
+  const [progressDelta, setProgressDelta] = useState(null);
   const [errorMsg, setErrorMsg] = useState('');
   const [boardOpen, setBoardOpen] = useState(false);
 
@@ -25,6 +26,7 @@ export function CapturePage() {
     try {
       const res = await solveProblem(p);
       setSolution(res.solution);
+      setProgressDelta(res.progress ?? null);
       setStatus('done');
       setBoardOpen(true);
     } catch (err) {
@@ -93,7 +95,11 @@ export function CapturePage() {
       <p className={styles.hint}>{t('solve.hint')}</p>
 
       {boardOpen && solution && (
-        <BoardSolve solution={solution} onClose={() => setBoardOpen(false)} />
+        <BoardSolve
+          solution={solution}
+          progressDelta={progressDelta}
+          onClose={() => setBoardOpen(false)}
+        />
       )}
     </div>
   );

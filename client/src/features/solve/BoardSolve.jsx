@@ -23,7 +23,7 @@ function ChalkPen() {
  * Full-screen "classroom board": the solution is written line by line by a
  * moving chalk, auto-scaled so the whole thing fits with no scrolling.
  */
-export function BoardSolve({ solution, onClose }) {
+export function BoardSolve({ solution, onClose, progressDelta }) {
   const { t, i18n } = useTranslation();
   const lang = (i18n.language || 'he').startsWith('he') ? 'he' : 'en';
 
@@ -172,6 +172,13 @@ export function BoardSolve({ solution, onClose }) {
           </div>
           {done && solution.verified && (
             <span className={styles.verified}>✓ {t('solve.verified')}</span>
+          )}
+          {done && progressDelta && (
+            <span className={styles.xpGain}>
+              +{progressDelta.gainedXp} XP
+              {progressDelta.leveledUp ? ` · ${t('game.levelUp')}` : ''}
+              {progressDelta.newAchievements?.length ? ' 🏆' : ''}
+            </span>
           )}
         </div>
       </div>

@@ -4,11 +4,15 @@ import { solveLocally } from '../solver/localSolver.js';
 import { solveWithLlm } from '../solver/llmSolver.js';
 import { getProviders } from '../providers/index.js';
 import { Solve } from '../models/Solve.js';
+import { Progress } from '../models/Progress.js';
+import { applySolve } from '../lib/gamification.js';
 
 export const solveRouter = Router();
 
-async function saveSolve(req, problem, solution, source) {
-  if (!req.user || mongoose.connection.readyState !== 1) return;
+/** Save the solve to history and award gamification. Returns the XP delta. */
+async function recordSolve(req, problem, solution, source) {
+  if (!req.user || mongoose.connection.readyState !== 1) return null;
+
   try {
     await Solve.create({
       userId: req.user.id,
@@ -21,7 +25,23 @@ async function saveSolve(req, problem, solution, source) {
       solution,
     });
   } catch {
-    /* history is best-effort — never fail a solve because saving failed */
+    /* history is best-effort */
+  }
+
+  try {
+    const progress =
+      (await Progress.findOne({ userId: req.user.id })) ||
+      new Progress({ userId: req.user.id });
+    const today = new Date().toISOString().slice(0, 10);
+    const { delta } = applySolve(progress, {
+      verified: Boolean(solution.verified),
+      source,
+      today,
+    });
+    await progress.save();
+    return delta;
+  } catch {
+    return null;
   }
 }
 
@@ -34,8 +54,8 @@ solveRouter.post('/', async (req, res) => {
   // 1) Real, key-free path: linear & quadratic equations, CAS-verified.
   const local = solveLocally(problem);
   if (local) {
-    await saveSolve(req, problem, local, 'local-cas');
-    return res.json({ source: 'local-cas', solution: local });
+    const progress = await recordSolve(req, problem, local, 'local-cas');
+    return res.json({ source: 'local-cas', solution: local, progress });
   }
 
   // 2) General path: the LLM proposes, the CAS verifies the result.
@@ -51,11 +71,12 @@ solveRouter.post('/', async (req, res) => {
   try {
     const result = await solveWithLlm(problem);
     if (!result) return res.status(422).json({ error: 'unsupported' });
-    await saveSolve(req, problem, result.solution, 'openai');
+    const progress = await recordSolve(req, problem, result.solution, 'openai');
     return res.json({
       source: 'openai',
       verifiedBy: result.verifiedBy,
       solution: result.solution,
+      progress,
     });
   } catch (err) {
     return res.status(502).json({ error: 'ai-failed', message: err.message });
