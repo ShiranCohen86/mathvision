@@ -40,6 +40,35 @@
   }
 }
 
+.keypad {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.key {
+  min-width: 2.6rem;
+  height: 2.6rem;
+  padding: 0 var(--space-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text);
+  font-size: var(--fs-300);
+  font-weight: 700;
+  font-family: ui-monospace, monospace;
+  transition: transform var(--dur-fast) var(--ease-out);
+  @include focus-ring;
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.keyBack {
+  color: var(--error);
+}
+
 .examples {
   display: flex;
   align-items: center;

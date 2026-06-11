@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { solveProblem, getPracticeProblem } from '../lib/api';
 import { BoardSolve } from '../features/solve/BoardSolve';
+import { MathKeypad } from '../features/solve/MathKeypad';
 import { MathBlock } from '../components/MathBlock';
 import pageStyles from './pages.module.scss';
 import styles from '../features/solve/solve.module.scss';
@@ -16,6 +17,46 @@ export function CapturePage() {
   const [progressDelta, setProgressDelta] = useState(null);
   const [errorMsg, setErrorMsg] = useState('');
   const [boardOpen, setBoardOpen] = useState(false);
+  const inputRef = useRef(null);
+
+  function insertAtCursor(text) {
+    const el = inputRef.current;
+    if (!el) {
+      setInput((v) => v + text);
+      return;
+    }
+    const start = el.selectionStart ?? input.length;
+    const end = el.selectionEnd ?? input.length;
+    setInput(input.slice(0, start) + text + input.slice(end));
+    requestAnimationFrame(() => {
+      el.focus();
+      const pos = start + text.length;
+      el.setSelectionRange(pos, pos);
+    });
+  }
+
+  function backspaceAtCursor() {
+    const el = inputRef.current;
+    if (!el) {
+      setInput((v) => v.slice(0, -1));
+      return;
+    }
+    const start = el.selectionStart ?? input.length;
+    const end = el.selectionEnd ?? input.length;
+    if (start === end && start > 0) {
+      setInput(input.slice(0, start - 1) + input.slice(end));
+      requestAnimationFrame(() => {
+        el.focus();
+        el.setSelectionRange(start - 1, start - 1);
+      });
+    } else if (start !== end) {
+      setInput(input.slice(0, start) + input.slice(end));
+      requestAnimationFrame(() => {
+        el.focus();
+        el.setSelectionRange(start, start);
+      });
+    }
+  }
 
   async function handleSolve(problem) {
     const p = (problem ?? input).trim();
@@ -53,6 +94,7 @@ export function CapturePage() {
 
       <div className={styles.inputRow}>
         <input
+          ref={inputRef}
           className={styles.input}
           dir="ltr"
           value={input}
@@ -72,6 +114,12 @@ export function CapturePage() {
           {status === 'loading' ? t('solve.solving') : t('solve.action')}
         </button>
       </div>
+
+      <MathKeypad
+        onInsert={insertAtCursor}
+        onBackspace={backspaceAtCursor}
+        backspaceLabel={t('solve.backspace')}
+      />
 
       <div className={styles.examples}>
         <button type="button" className={styles.practiceChip} onClick={handlePractice}>
