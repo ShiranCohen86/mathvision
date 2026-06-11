@@ -65,7 +65,8 @@
     "step": "שלב {{n}} / {{total}}",
     "board": "לוח פתרון",
     "close": "סגירה",
-    "watch": "צפו בלוח"
+    "watch": "צפו בלוח",
+    "voice": "הקראה"
   },
   "auth": {
     "google": "התחברות עם Google",

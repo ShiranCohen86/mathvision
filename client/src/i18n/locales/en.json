@@ -65,7 +65,8 @@
     "step": "Step {{n}} / {{total}}",
     "board": "Solving board",
     "close": "Close",
-    "watch": "Watch on the board"
+    "watch": "Watch on the board",
+    "voice": "Narration"
   },
   "auth": {
     "google": "Sign in with Google",

@@ -6,6 +6,17 @@ import styles from './board.module.scss';
 const BASE_WIPE = 1200; // ms to "write" one line at 1×
 const GAP = 380; // pause between lines (ms at 1×)
 
+/** Read a line aloud with the browser's built-in speech (free, no API key). */
+function speakText(text, lang) {
+  const synth = typeof window !== 'undefined' ? window.speechSynthesis : null;
+  if (!synth || !text) return;
+  synth.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = lang === 'he' ? 'he-IL' : 'en-US';
+  u.rate = 0.95;
+  synth.speak(u);
+}
+
 /** A little piece of chalk that rides the writing tip. */
 function ChalkPen() {
   return (
@@ -43,6 +54,7 @@ export function BoardSolve({ solution, onClose, progressDelta }) {
   const [writing, setWriting] = useState(0);
   const [paused, setPaused] = useState(false);
   const [speed, setSpeed] = useState(1);
+  const [voice, setVoice] = useState(false);
   const [scale, setScale] = useState(1);
   const stageRef = useRef(null);
   const contentRef = useRef(null);
@@ -82,6 +94,19 @@ export function BoardSolve({ solution, onClose, progressDelta }) {
     if (stageRef.current) ro.observe(stageRef.current);
     return () => ro.disconnect();
   }, [solution]);
+
+  // Narrate the current line's explanation when voice is on.
+  useEffect(() => {
+    if (!voice) {
+      window.speechSynthesis?.cancel();
+      return;
+    }
+    const caption = lines[Math.min(writing, lines.length - 1)]?.caption;
+    if (caption) speakText(caption, lang);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [writing, voice]);
+
+  useEffect(() => () => window.speechSynthesis?.cancel(), []);
 
   const done = writing >= lines.length;
   const dur = BASE_WIPE / speed;
@@ -158,6 +183,13 @@ export function BoardSolve({ solution, onClose, progressDelta }) {
               {paused ? '▶' : '❚❚'}
             </button>
           )}
+          <button
+            type="button"
+            onClick={() => setVoice((v) => !v)}
+            aria-label={t('solve.voice')}
+          >
+            {voice ? '🔊' : '🔇'}
+          </button>
           <div className={styles.speeds}>
             {[0.5, 1, 2].map((sp) => (
               <button
