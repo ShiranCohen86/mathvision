@@ -111,6 +111,39 @@
   font-weight: 700;
 }
 
+.recentList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.recentItem {
+  width: 100%;
+  @include card;
+  padding: var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  text-align: start;
+  transition: transform var(--dur-fast) var(--ease-out);
+  @include focus-ring;
+
+  &:active {
+    transform: scale(0.99);
+  }
+}
+
+.recentMath {
+  overflow: hidden;
+}
+
+.recentAnswer {
+  color: var(--primary);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
 .signinBtn {
   align-self: flex-start;
   padding: var(--space-3) var(--space-5);
