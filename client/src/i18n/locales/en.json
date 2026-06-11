@@ -24,7 +24,9 @@
     "subtitle": "Ready to solve something?",
     "cta": "Snap a problem",
     "recent": "Recent",
-    "empty": "No solutions yet — let's start!"
+    "empty": "No solutions yet — let's start!",
+    "daily": "Daily challenge",
+    "dailyDo": "Solve it"
   },
   "capture": {
     "title": "Solve a problem",
@@ -50,6 +52,7 @@
     "action": "Solve",
     "solving": "Solving…",
     "examples": "Try:",
+    "practice": "Practice problem",
     "hint": "Linear & quadratic equations are solved and verified right here — no keys needed. Photo capture and AI solving for any problem arrive when API keys are added.",
     "answer": "Answer",
     "verified": "Verified",

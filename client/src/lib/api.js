@@ -44,3 +44,8 @@ export const getHistory = () => apiFetch('/history');
 export const getProgress = () => apiFetch('/progress');
 
 export const getLeaderboard = () => apiFetch('/progress/leaderboard');
+
+export const getPracticeProblem = (kind) =>
+  apiFetch(`/practice/new${kind ? `?kind=${kind}` : ''}`);
+
+export const getDailyChallenge = () => apiFetch('/practice/daily');

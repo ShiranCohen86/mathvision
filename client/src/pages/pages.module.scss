@@ -111,6 +111,41 @@
   font-weight: 700;
 }
 
+.dailyCard {
+  @include card;
+  padding: var(--space-5);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--accent) 12%, var(--surface)),
+    var(--surface)
+  );
+}
+
+.dailyInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.dailyLabel {
+  font-size: var(--fs-200);
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.dailyMath {
+  font-size: var(--fs-500);
+  overflow-x: auto;
+}
+
 .recentList {
   display: flex;
   flex-direction: column;

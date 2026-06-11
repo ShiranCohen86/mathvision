@@ -5,6 +5,7 @@ import { solveRouter } from './solve.js';
 import { recognizeRouter } from './recognize.js';
 import { historyRouter } from './history.js';
 import { progressRouter } from './progress.js';
+import { practiceRouter } from './practice.js';
 
 export const apiRouter = Router();
 
@@ -14,5 +15,6 @@ apiRouter.use('/solve', solveRouter);
 apiRouter.use('/recognize', recognizeRouter);
 apiRouter.use('/history', historyRouter);
 apiRouter.use('/progress', progressRouter);
+apiRouter.use('/practice', practiceRouter);
 
-// Future routers mount here: family, tutor, practice…
+// Future routers mount here: family, tutor…

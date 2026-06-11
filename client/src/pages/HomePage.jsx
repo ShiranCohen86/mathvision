@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../app/AuthProvider';
-import { getProgress, getHistory } from '../lib/api';
+import { getProgress, getHistory, getDailyChallenge, solveProblem } from '../lib/api';
 import { BackendStatus } from '../components/BackendStatus';
 import { BoardSolve } from '../features/solve/BoardSolve';
 import { MathBlock } from '../components/MathBlock';
@@ -15,6 +15,7 @@ export function HomePage() {
   const [progress, setProgress] = useState(null);
   const [recents, setRecents] = useState([]);
   const [replay, setReplay] = useState(null);
+  const [daily, setDaily] = useState(null);
 
   useEffect(() => {
     if (!user) {
@@ -29,6 +30,22 @@ export function HomePage() {
       .then((r) => setRecents((r.items ?? []).slice(0, 4)))
       .catch(() => setRecents([]));
   }, [user]);
+
+  useEffect(() => {
+    getDailyChallenge()
+      .then(setDaily)
+      .catch(() => setDaily(null));
+  }, []);
+
+  async function solveDaily() {
+    if (!daily) return;
+    try {
+      const res = await solveProblem(daily.problem);
+      setReplay(res.solution);
+    } catch {
+      /* ignore */
+    }
+  }
 
   return (
     <div className={`container ${styles.page}`}>
@@ -54,6 +71,20 @@ export function HomePage() {
         </Link>
         <BackendStatus />
       </section>
+
+      {daily && (
+        <section className={styles.dailyCard}>
+          <div className={styles.dailyInfo}>
+            <span className={styles.dailyLabel}>{t('home.daily')}</span>
+            <div className={styles.dailyMath}>
+              <MathBlock latex={daily.problem} display={false} />
+            </div>
+          </div>
+          <button type="button" className={styles.ctaButton} onClick={solveDaily}>
+            {t('home.dailyDo')}
+          </button>
+        </section>
+      )}
 
       <section>
         <h2 className={styles.sectionTitle}>{t('home.recent')}</h2>

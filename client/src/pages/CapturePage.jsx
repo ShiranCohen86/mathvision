@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { solveProblem } from '../lib/api';
+import { solveProblem, getPracticeProblem } from '../lib/api';
 import { BoardSolve } from '../features/solve/BoardSolve';
 import { MathBlock } from '../components/MathBlock';
 import pageStyles from './pages.module.scss';
@@ -35,6 +35,15 @@ export function CapturePage() {
     }
   }
 
+  async function handlePractice() {
+    try {
+      const { problem } = await getPracticeProblem();
+      handleSolve(problem);
+    } catch {
+      /* ignore */
+    }
+  }
+
   return (
     <div className={`container ${pageStyles.page}`}>
       <header className={pageStyles.header}>
@@ -65,6 +74,9 @@ export function CapturePage() {
       </div>
 
       <div className={styles.examples}>
+        <button type="button" className={styles.practiceChip} onClick={handlePractice}>
+          🎲 {t('solve.practice')}
+        </button>
         <span className={styles.examplesLabel}>{t('solve.examples')}</span>
         {EXAMPLES.map((ex) => (
           <button
