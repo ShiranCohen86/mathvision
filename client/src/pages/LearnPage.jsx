@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../app/AuthProvider';
 import { getProgress, getLeaderboard } from '../lib/api';
@@ -21,6 +22,7 @@ export function LearnPage() {
   const { user, loading: authLoading, signIn } = useAuth();
   const [progress, setProgress] = useState(null);
   const [board, setBoard] = useState(null);
+  const [hasFamily, setHasFamily] = useState(true);
 
   useEffect(() => {
     if (!user) {
@@ -30,7 +32,10 @@ export function LearnPage() {
     }
     getProgress().then(setProgress).catch(() => setProgress(null));
     getLeaderboard()
-      .then((r) => setBoard(r.items))
+      .then((r) => {
+        setBoard(r.items);
+        setHasFamily(r.family !== false);
+      })
       .catch(() => setBoard([]));
   }, [user]);
 
@@ -119,6 +124,13 @@ export function LearnPage() {
         <h2 className={styles.sectionTitle}>{t('game.leaderboard')}</h2>
         {board === null ? (
           <p className={pageStyles.subtitle}>…</p>
+        ) : !hasFamily ? (
+          <div className={pageStyles.placeholder}>
+            <p>{t('family.prompt')}</p>
+            <Link to="/profile" className={authStyles.googleBtn}>
+              {t('family.title')}
+            </Link>
+          </div>
         ) : board.length === 0 ? (
           <div className={pageStyles.placeholder}>
             <p>{t('game.noBoard')}</p>

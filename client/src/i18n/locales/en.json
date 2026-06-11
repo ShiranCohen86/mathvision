@@ -93,6 +93,19 @@
       "verified-10": "10 verified"
     }
   },
+  "family": {
+    "title": "Family",
+    "invite": "Share this code so family can join.",
+    "copy": "Copy code",
+    "you": "you",
+    "leave": "Leave family",
+    "create": "Create",
+    "join": "Join",
+    "or": "or",
+    "namePlaceholder": "Family name",
+    "codePlaceholder": "Invite code",
+    "prompt": "Join or create a family to compete on the leaderboard."
+  },
   "phase": {
     "badge": "Coming in {{phase}}"
   }

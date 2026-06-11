@@ -49,3 +49,13 @@ export const getPracticeProblem = (kind) =>
   apiFetch(`/practice/new${kind ? `?kind=${kind}` : ''}`);
 
 export const getDailyChallenge = () => apiFetch('/practice/daily');
+
+export const getFamily = () => apiFetch('/family');
+
+export const createFamily = (name) =>
+  apiFetch('/family/create', { method: 'POST', body: JSON.stringify({ name }) });
+
+export const joinFamily = (code) =>
+  apiFetch('/family/join', { method: 'POST', body: JSON.stringify({ code }) });
+
+export const leaveFamily = () => apiFetch('/family/leave', { method: 'POST' });

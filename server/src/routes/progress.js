@@ -19,21 +19,27 @@ progressRouter.get('/', requireAuth, async (req, res) => {
   });
 });
 
+// Leaderboard scoped to the signed-in user's family (private group).
 progressRouter.get('/leaderboard', requireAuth, async (req, res) => {
-  const top = await Progress.find().sort({ xp: -1 }).limit(20).lean();
-  const users = await User.find({ _id: { $in: top.map((t) => t.userId) } }).lean();
-  const byId = new Map(users.map((u) => [String(u._id), u]));
-  res.json({
-    items: top.map((t, i) => {
-      const u = byId.get(String(t.userId));
-      return {
-        rank: i + 1,
-        displayName: u?.displayName ?? 'Player',
-        avatar: u?.avatar ?? null,
-        xp: t.xp ?? 0,
-        level: t.level ?? 1,
-        me: String(t.userId) === req.user.id,
-      };
-    }),
-  });
+  const me = await User.findById(req.user.id).lean();
+  if (!me?.familyId) return res.json({ items: [], family: false });
+
+  const members = await User.find({ familyId: me.familyId }).lean();
+  const progresses = await Progress.find({
+    userId: { $in: members.map((m) => m._id) },
+  }).lean();
+  const progById = new Map(progresses.map((p) => [String(p.userId), p]));
+
+  const items = members
+    .map((m) => ({
+      displayName: m.displayName ?? 'Player',
+      avatar: m.avatar ?? null,
+      xp: progById.get(String(m._id))?.xp ?? 0,
+      level: progById.get(String(m._id))?.level ?? 1,
+      me: String(m._id) === req.user.id,
+    }))
+    .sort((a, b) => b.xp - a.xp)
+    .map((r, i) => ({ rank: i + 1, ...r }));
+
+  res.json({ items, family: true });
 });

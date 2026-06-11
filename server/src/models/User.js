@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema(
     avatar: String,
     locale: { type: String, default: 'he' },
     role: { type: String, enum: ['parent', 'child', 'member'], default: 'member' },
+    familyId: { type: mongoose.Schema.Types.ObjectId, ref: 'Family', index: true, default: null },
   },
   { timestamps: true },
 );
