@@ -21,10 +21,9 @@ function speakText(text, lang) {
 function ChalkPen() {
   return (
     <svg viewBox="0 0 48 48" width="100%" height="100%" aria-hidden="true">
-      <g transform="rotate(38 24 24)">
-        <rect x="20" y="6" width="8" height="26" rx="3" fill="#f3f5ee" />
-        <rect x="20" y="6" width="8" height="6" rx="3" fill="#d3dac9" />
-        <polygon points="20,32 28,32 24,43" fill="#ffffff" />
+      <g transform="rotate(38 24 24)" fill="currentColor">
+        <rect x="20" y="6" width="8" height="26" rx="3" />
+        <polygon points="20,32 28,32 24,43" />
       </g>
     </svg>
   );
@@ -55,6 +54,13 @@ export function BoardSolve({ solution, onClose, progressDelta }) {
   const [paused, setPaused] = useState(false);
   const [speed, setSpeed] = useState(1);
   const [voice, setVoice] = useState(false);
+  const [boardStyle, setBoardStyle] = useState(() => {
+    try {
+      return localStorage.getItem('mv.boardStyle') || 'chalkboard';
+    } catch {
+      return 'chalkboard';
+    }
+  });
   const [scale, setScale] = useState(1);
   const stageRef = useRef(null);
   const contentRef = useRef(null);
@@ -108,6 +114,14 @@ export function BoardSolve({ solution, onClose, progressDelta }) {
 
   useEffect(() => () => window.speechSynthesis?.cancel(), []);
 
+  useEffect(() => {
+    try {
+      localStorage.setItem('mv.boardStyle', boardStyle);
+    } catch {
+      /* ignore */
+    }
+  }, [boardStyle]);
+
   const done = writing >= lines.length;
   const dur = BASE_WIPE / speed;
 
@@ -121,7 +135,7 @@ export function BoardSolve({ solution, onClose, progressDelta }) {
 
   return (
     <div
-      className={`${styles.board} ${paused ? styles.paused : ''}`}
+      className={`${styles.board} ${boardStyle === 'whiteboard' ? styles.whiteboard : ''} ${paused ? styles.paused : ''}`}
       role="dialog"
       aria-modal="true"
       aria-label={t('solve.board')}
@@ -189,6 +203,15 @@ export function BoardSolve({ solution, onClose, progressDelta }) {
             aria-label={t('solve.voice')}
           >
             {voice ? '🔊' : '🔇'}
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              setBoardStyle((s) => (s === 'chalkboard' ? 'whiteboard' : 'chalkboard'))
+            }
+            aria-label={t('solve.boardStyle')}
+          >
+            🎨
           </button>
           <div className={styles.speeds}>
             {[0.5, 1, 2].map((sp) => (

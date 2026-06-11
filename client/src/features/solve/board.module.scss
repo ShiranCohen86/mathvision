@@ -1,18 +1,28 @@
 @use '../../styles/mixins' as *;
 
-$board-bg: #1f2e28; // chalkboard — the cover MUST use the same colour
-
+// The board colour is a CSS variable so styles are switchable and the wipe
+// cover always matches the background exactly.
 .board {
+  --board-bg: #1f2e28;
+  --board-ink: #eef3ec;
+  --pen-color: #f3f5ee;
+
   position: fixed;
   inset: 0;
   z-index: var(--z-modal);
   display: flex;
   flex-direction: column;
-  background-color: $board-bg;
-  color: #eef3ec;
+  background-color: var(--board-bg);
+  color: var(--board-ink);
   padding: calc(var(--safe-top) + var(--space-4)) var(--space-4)
     calc(var(--safe-bottom) + var(--space-4));
   overflow: hidden;
+}
+
+.whiteboard {
+  --board-bg: #f6f8fb;
+  --board-ink: #1a2230;
+  --pen-color: #2563eb;
 }
 
 .close {
@@ -24,9 +34,9 @@ $board-bg: #1f2e28; // chalkboard — the cover MUST use the same colour
   height: 2.4rem;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  border: 1px solid color-mix(in srgb, var(--board-ink) 25%, transparent);
   border-radius: var(--radius-pill);
-  background: rgba(255, 255, 255, 0.07);
+  background: color-mix(in srgb, var(--board-ink) 8%, transparent);
   color: inherit;
   font-size: 1.05rem;
   @include focus-ring;
@@ -53,8 +63,6 @@ $board-bg: #1f2e28; // chalkboard — the cover MUST use the same colour
 .line {
   position: relative;
   display: inline-block;
-  // a soft chalk glow
-  text-shadow: 0 0 1px rgba(238, 243, 236, 0.35);
 }
 
 .pending {
@@ -68,7 +76,7 @@ $board-bg: #1f2e28; // chalkboard — the cover MUST use the same colour
 
 .answer {
   margin-top: 0.15em;
-  color: #c8f7d0;
+  color: color-mix(in srgb, var(--success) 55%, var(--board-ink));
 }
 
 .ink {
@@ -78,7 +86,7 @@ $board-bg: #1f2e28; // chalkboard — the cover MUST use the same colour
 .cover {
   position: absolute;
   inset: -0.18em -0.25em;
-  background-color: $board-bg;
+  background-color: var(--board-bg);
   animation: wipe var(--wipe, 1200ms) linear forwards;
 }
 
@@ -103,7 +111,8 @@ $board-bg: #1f2e28; // chalkboard — the cover MUST use the same colour
   height: 2em;
   transform: translate(-55%, -55%);
   pointer-events: none;
-  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.45));
+  color: var(--pen-color);
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35));
 }
 
 .bottom {
@@ -118,7 +127,7 @@ $board-bg: #1f2e28; // chalkboard — the cover MUST use the same colour
   min-height: 1.4em;
   max-width: 42rem;
   text-align: center;
-  color: rgba(238, 243, 236, 0.86);
+  color: color-mix(in srgb, var(--board-ink) 86%, transparent);
   font-size: var(--fs-300);
 }
 
@@ -132,9 +141,9 @@ $board-bg: #1f2e28; // chalkboard — the cover MUST use the same colour
     height: 2.8rem;
     display: grid;
     place-items: center;
-    border: 1px solid rgba(255, 255, 255, 0.22);
+    border: 1px solid color-mix(in srgb, var(--board-ink) 25%, transparent);
     border-radius: var(--radius-pill);
-    background: rgba(255, 255, 255, 0.08);
+    background: color-mix(in srgb, var(--board-ink) 8%, transparent);
     color: inherit;
     font-size: 1rem;
     font-weight: 700;
@@ -155,30 +164,27 @@ $board-bg: #1f2e28; // chalkboard — the cover MUST use the same colour
 }
 
 .speedActive {
-  background: rgba(255, 255, 255, 0.9) !important;
-  color: $board-bg !important;
+  background: color-mix(in srgb, var(--board-ink) 90%, transparent) !important;
+  color: var(--board-bg) !important;
 }
 
-.verified {
+.verified,
+.xpGain {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   margin-inline-start: var(--space-2);
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-pill);
+  color: var(--board-ink);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.verified {
   background: rgba(16, 185, 129, 0.22);
-  color: #c8f7d0;
-  font-weight: 700;
 }
 
 .xpGain {
-  display: inline-flex;
-  align-items: center;
-  margin-inline-start: var(--space-2);
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-pill);
   background: rgba(245, 158, 11, 0.25);
-  color: #ffe6b3;
-  font-weight: 800;
-  white-space: nowrap;
 }

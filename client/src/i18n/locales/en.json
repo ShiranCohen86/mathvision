@@ -66,7 +66,8 @@
     "board": "Solving board",
     "close": "Close",
     "watch": "Watch on the board",
-    "voice": "Narration"
+    "voice": "Narration",
+    "boardStyle": "Board style"
   },
   "auth": {
     "google": "Sign in with Google",
